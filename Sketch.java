@@ -7,13 +7,14 @@ public class Sketch extends PApplet {
   
   public void settings() {
 	// put your size call here
-    size(1600, 800);
+    size(1000, 500);
   }
 
  
   public void setup() {
     background(210, 255, 173);
     img = loadImage("cptbackground.jpg");
+    img.resize(width, height);
 
   }
 
