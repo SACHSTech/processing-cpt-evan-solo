@@ -14,6 +14,12 @@ public class Sketch extends PApplet {
   float playerY = 400;
   float playerWidth = 12;
   float player height = 18;
+  float playerLives = 3;
+
+  // Enemy
+  float enemyX;
+  float enemyY;
+  float enemyLives = 3;
 
   // Game over
   boolean gameover = false;
