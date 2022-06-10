@@ -4,7 +4,8 @@ import processing.core.PImage;
 public class Sketch extends PApplet {
 
   // Images
-	PImage img;
+	PImage background;
+  PImage background2;
 
   // Player
   int speed = 2;
@@ -39,8 +40,8 @@ public class Sketch extends PApplet {
  
   public void setup() {
     background(210, 255, 173);
-    img = loadImage("background.jpg");
-    img.resize(width, height);
+    background = loadImage("background.jpg");
+    background.resize(width, height);
 
   }
 
