@@ -26,11 +26,12 @@ public class Sketch extends PApplet {
   boolean gameover = false;
 
   // Key pressed variables
-  boolean WPressed;
-  boolean APressed;
-  boolean SPressed;
-  boolean DPressed;
-  boolean SpacePressed;
+  boolean wPressed;
+  boolean aPressed;
+  boolean sPressed;
+  boolean dPressed;
+  boolean spacePressed;
+  boolean attack;
 	
   
   public void settings() {
@@ -47,6 +48,25 @@ public class Sketch extends PApplet {
 
   public void draw() {
 	  image(img, 0, 0);
+  }
+
+  public void keyPressed(){
+    // Detecting movement
+    if(key == 'w'){
+      wPressed = true;
+    }
+    if(key == 'a'){
+      aPressed = true;
+    }
+    if(key =='s'){
+      sPressed = true;
+    }
+    if(key == 'd'){
+      dPressed = true;
+    }
+    if(key == ' '){
+      spacePressed = true;
+    }
   }
   
 }
