@@ -120,6 +120,9 @@ public class Sketch extends PApplet {
         sun = true;
         sunX = 0;
         sunY = 250;
+    else if(gameover == true){
+        
+    }
     }
   }
   
