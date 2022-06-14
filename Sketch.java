@@ -69,4 +69,12 @@ public class Sketch extends PApplet {
     }
   }
   
+  public void mousePressed(){
+    attack = true;
+  }
+
+  public void mouseReleased(){
+    attack = false;
+  }
+  
 }
