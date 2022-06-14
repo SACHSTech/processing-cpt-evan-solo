@@ -32,6 +32,16 @@ public class Sketch extends PApplet {
   boolean dPressed;
   boolean spacePressed;
   boolean attack;
+
+  // Moon and Sun
+  double sunX = 0;
+  double sunY = 250;
+  float sunWidth = 40
+  float sunHeight = 40;
+  double sunSpeed = 3;
+  boolean sun = true;
+  boolean moon = false;
+  float inverse;
 	
   
   public void settings() {
@@ -75,6 +85,42 @@ public class Sketch extends PApplet {
 
   public void mouseReleased(){
     attack = false;
+  }
+
+  public void dayCycle(){
+    // Day
+    if(sun == true && gameover == false){
+      background = loadImage(background.jpg);
+
+      fill(245, 255, 50);
+      ellipse(inverse, (float)sunY, sunWidth, sunHeight);
+      sunX += sunSpeed;
+      sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
+      inverse = width - (float) sunX;
+      
+      if (SunMoonY >= 300) {
+        moon = true;
+        sun = false;
+        sunX = 0;
+        sunY = 250;
+      }
+    }
+    else if(moon == true && gameover == false){
+      background2
+
+      // Night
+      fill(255, 255, 255);
+      ellipse(inverse, (float)sunY, sunWidth, sunHeight);
+      sunX += sunSpeed;
+      sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
+      inverse = width - (float) sunX;
+
+      if (SunMoonY >= 300) {
+        moon = false;
+        sun = true;
+        sunX = 0;
+        sunY = 250;
+    }
   }
   
 }
