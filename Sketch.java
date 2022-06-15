@@ -6,6 +6,18 @@ public class Sketch extends PApplet {
   // Images
 	PImage background;
   PImage background2;
+  PImage sonicRun;
+  PImage sonicAttack;
+  PImage[] sonicRunFrames;
+  PImage[] sonicAttackFrames;
+  PImage drEggman;
+  PImage[] drEggmanFrames;
+  PImage lives;
+  PImage gameOverScreen;
+  PImage spritesheet;
+
+  int sonic_runFrames = 8;
+  int sonic_runFrameWidth = 90;
 
   // Player
   int speed = 2;
@@ -14,7 +26,7 @@ public class Sketch extends PApplet {
   float playerX = 80;
   float playerY = 400;
   float playerWidth = 12;
-  float player height = 18;
+  float playerHeight = 18;
   float playerLives = 3;
 
   // Enemy
@@ -36,7 +48,7 @@ public class Sketch extends PApplet {
   // Moon and Sun
   double sunX = 0;
   double sunY = 250;
-  float sunWidth = 40
+  float sunWidth = 40;
   float sunHeight = 40;
   double sunSpeed = 3;
   boolean sun = true;
@@ -50,14 +62,38 @@ public class Sketch extends PApplet {
 
  
   public void setup() {
-    background(210, 255, 173);
+    // Load Spritesheet
+    spritesheet = loadImage("spritesheet.png");
+    
+    // Load images
     background = loadImage("background.jpg");
     background.resize(width, height);
+
+    background2 = spritesheet.get(16,133,295,147);
+    background2.resize(width, height);
+
+    sonicRun = spritesheet.get(20,20,sonic_runFrames*sonic_runFrameWidth,90);
+    
+    sonicAttack = spritesheet.get(5,289,374,118);
+
+    drEggman = spritesheet.get(338,130,588,120);
+
+    lives = spritesheet.get(14,445,170,170);
+
+    gameOverScreen = spritesheet.get(481,299,393,216);
+    gameOverScreen.resize(width, height);
+
+    // Running animation sonic
+    sonicRunFrames = new PImage[sonic_runFrames];
+    for(int i = 0; i < sonic_runFrames; i++){
+      sonicRunFrames[i] = spritesheet.get(sonic_runFrameWidth*i, 0, sonic_runFrameWidth, sonicRun.height);
+    }
+    
 
   }
 
   public void draw() {
-	  image(img, 0, 0);
+	  image(background, 0, 0);
   }
 
   public void keyPressed(){
@@ -90,7 +126,7 @@ public class Sketch extends PApplet {
   public void dayCycle(){
     // Day
     if(sun == true && gameover == false){
-      background = loadImage(background.jpg);
+      image(background, 0, 0);
 
       fill(245, 255, 50);
       ellipse(inverse, (float)sunY, sunWidth, sunHeight);
@@ -98,7 +134,7 @@ public class Sketch extends PApplet {
       sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
       
-      if (SunMoonY >= 300) {
+      if (sunY >= 300) {
         moon = true;
         sun = false;
         sunX = 0;
@@ -106,7 +142,7 @@ public class Sketch extends PApplet {
       }
     }
     else if(moon == true && gameover == false){
-      background2
+      background2 = spritesheet.get(16,133,295,147);
 
       // Night
       fill(255, 255, 255);
@@ -115,11 +151,12 @@ public class Sketch extends PApplet {
       sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
 
-      if (SunMoonY >= 300) {
+      if (sunY >= 300) {
         moon = false;
         sun = true;
         sunX = 0;
         sunY = 250;
+      }
     else if(gameover == true){
         
     }
