@@ -115,14 +115,8 @@ public class Sketch extends PApplet {
 
   public void keyPressed(){
     // Detecting movement
-    if(key == 'w'){
-      wPressed = true;
-    }
     if(key == 'a'){
       aPressed = true;
-    }
-    if(key =='s'){
-      sPressed = true;
     }
     if(key == 'd'){
       dPressed = true;
@@ -181,7 +175,7 @@ public class Sketch extends PApplet {
 }
   
   public void sonic(){
-    //Drawing sonic
+    //Drawing running sonic
     image(sonicRunFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
   }
   
