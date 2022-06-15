@@ -254,5 +254,11 @@ public class Sketch extends PApplet {
       img(gameOverScreen, 0, 0);
     }
   }
+
+  public void win(){
+    if(enemyLives == 0){
+      img(winScreen, 0, 0);
+    }
+  }
   
 }
