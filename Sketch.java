@@ -42,9 +42,6 @@ public class Sketch extends PApplet {
   float enemyY;
   float enemyLives = 3;
 
-  // Game over
-  boolean gameover = false;
-
   // Key pressed variables
   boolean wPressed;
   boolean aPressed;
@@ -148,7 +145,7 @@ public class Sketch extends PApplet {
 
   public void dayCycle(){
     // Day
-    if(sun == true && gameover == false){
+    if(sun == true && playerLives > 0){
       image(background, 0, 0);
 
       fill(245, 255, 50);
@@ -164,7 +161,7 @@ public class Sketch extends PApplet {
         sunY = 250;
       }
     }
-    else if(moon == true && gameover == false){
+    else if(moon == true && playerLives > 0){
       background2 = spritesheet.get(16,133,295,147);
 
       // Night
@@ -183,23 +180,23 @@ public class Sketch extends PApplet {
   }
 }
   
-  public void sonic(){
+  public void sonicRunner(){
 
     playerY += playerSpeedY;
     //Drawing running sonic
-    if(aPressed == true  && gameover = false){   
+    if(aPressed == true  && playerLives > 0){   
       image(sonicRunLeftFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
       playerX -= speed;
       jumping = true;
     }
 
-    else if(dPressed == true && gameover = false){ 
+    else if(dPressed == true && playerLives > 0){ 
       image(sonicRunLeftFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
       playerX += speed;
       jumping = true;
     }
 
-    else if(spacePressed == true && gameover = false){
+    else if(spacePressed == true && playerLives > 0){
       if(!jumping){
         playerSpeedY = -10;
         jumping = true;
@@ -243,10 +240,11 @@ public class Sketch extends PApplet {
       playerY = 400;
     }
     
+    
   }
 
   public void gameover(){
-    if(gameover = true){
+    if(playerLives == 0){
       img(gameOverScreen, 0, 0);
     }
   }
