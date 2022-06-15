@@ -180,9 +180,6 @@ public class Sketch extends PApplet {
         sunX = 0;
         sunY = 250;
       }
-    else if(gameover == true){
-        
-    }
   }
 }
   
@@ -246,6 +243,12 @@ public class Sketch extends PApplet {
       playerY = 400;
     }
     
+  }
+
+  public void gameover(){
+    if(gameover = true){
+      img(gameOverScreen, 0, 0);
+    }
   }
   
 }
