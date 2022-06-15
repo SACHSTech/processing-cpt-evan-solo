@@ -18,6 +18,10 @@ public class Sketch extends PApplet {
 
   int sonic_runFrames = 8;
   int sonic_runFrameWidth = 90;
+  int sonic_attackFrames = 4;
+  int sonic_attackWidth = 98;
+  int drEggman_runFrames = 6;
+  int drEggman_runFrameWidth = 95;
 
   // Player
   int speed = 2;
@@ -86,11 +90,24 @@ public class Sketch extends PApplet {
     // Running animation sonic
     sonicRunFrames = new PImage[sonic_runFrames];
     for(int i = 0; i < sonic_runFrames; i++){
-      sonicRunFrames[i] = spritesheet.get(sonic_runFrameWidth*i, 0, sonic_runFrameWidth, sonicRun.height);
+      sonicRunFrames[i] = spritesheet.get(sonic_runFrameWidth*i, 0, sonic_runFrameWidth, drEggman.height);
     }
+
+    // Attack animation sonic
+    sonicAttackFrames = new PImage[sonic_attackFrames];
+    for(int i = 0; i < sonic_attackFrames; i++){
+      sonicAttackFrames[i] = spritesheet.get(sonic_attackFrameWidth*i, 0, sonic_attackFrameWidth, sonicAttack.height);
+    }
+
+    // Run animation dr eggman
+    drEggmanFrames = new PImage[drEggman_runFrames];
+    for(int i = 0; i < drEggman_runFrames; i++){
+      drEggmanRunFrames[i] = spritesheet.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, sonicRun.height);
+    }
+ }
     
 
-  }
+  
 
   public void draw() {
 	  image(background, 0, 0);
@@ -160,7 +177,12 @@ public class Sketch extends PApplet {
     else if(gameover == true){
         
     }
-    }
+  }
+}
+  
+  public void sonic(){
+    //Drawing sonic
+    image(sonicRunFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
   }
   
 }
