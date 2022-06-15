@@ -60,6 +60,12 @@ public class Sketch extends PApplet {
   boolean sun = true;
   boolean moon = false;
   float inverse;
+
+  // Lives
+  float heartY = 450;
+  float oneHeartX = 940;
+  float twoHeartX = 920;
+  float threeHeartX = 900;
 	
   
   public void settings() {
@@ -78,7 +84,7 @@ public class Sketch extends PApplet {
     background2 = spritesheet.get(16,133,295,147);
     background2.resize(width, height);
 
-    winScreen = loadImage(winscreen.jpg);
+    winScreen = loadImage("winscreen.jpg");
     winScreen.resize(width, height);
 
     sonicRunLeft = spritesheet.get(20,20,sonic_runFrames*sonic_runFrameWidth,90);
@@ -90,6 +96,7 @@ public class Sketch extends PApplet {
     drEggman = spritesheet.get(338,130,588,120);
 
     lives = spritesheet.get(14,445,170,170);
+    lives.resize(lives.width/3,lives.height/3);
 
     gameOverScreen = spritesheet.get(481,299,393,216);
     gameOverScreen.resize(width, height);
@@ -103,19 +110,19 @@ public class Sketch extends PApplet {
     // Running animation sonic going right
     sonicRunRightFrames = new PImage[sonic_runFrames];
     for(int i = 0; i < sonic_runFrames; i++){
-      sonicRunRightFrames[i] = sonicRunRight.get(sonic_runFrameWidth*i, 0, sonic_runFrameWidth, sonicRunRight.height);
+      sonicRunRightFrames[i] = sonicRunRight.get(sonic_runFrameWidth*i, 0, sonic_runFrameWidth, sonicRunRight.height );
     }
 
     // Attack animation sonic
     sonicAttackFrames = new PImage[sonic_attackFrames];
     for(int i = 0; i < sonic_attackFrames; i++){
-      sonicAttackFrames[i] = sonicAttack.get(sonic_attackFrameWidth*i, 0, sonic_attackFrameWidth, sonicAttack.height);
+      sonicAttackFrames[i] = sonicAttack.get(sonic_attackFrameWidth*i, 0, sonic_attackFrameWidth, sonicAttack.height );
     }
 
     // Run animation dr eggman
     drEggmanFrames = new PImage[drEggman_runFrames];
     for(int i = 0; i < drEggman_runFrames; i++){
-      drEggmanRunFrames[i] = drEggman.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, drEggman.height);
+      drEggmanRunFrames[i] = drEggman.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, drEggman.height );
     }
  }
     
@@ -126,6 +133,7 @@ public class Sketch extends PApplet {
 	  dayCycle();
     sonicRunner();
     gameover();
+    lives();
   }
 
   public void keyPressed(){
@@ -213,13 +221,13 @@ public class Sketch extends PApplet {
     if(playerY + playerHeight > 340 && 23 < playerX < 150){
       playerY = 340;
       playerSpeedY = 0;
-      jumping = false
+      jumping = false;
     }
 
     if(playerY + playerHeight > 300 && 220 < playerX < 450){
       playerY = 300;
-      playerSpeedY = 0
-      jumping = false
+      playerSpeedY = 0;
+      jumping = false;
     }
 
     if(playerY + playerHeight > 405 && 530 < playerX < 600){
@@ -251,13 +259,28 @@ public class Sketch extends PApplet {
 
   public void gameover(){
     if(playerLives == 0){
-      img(gameOverScreen, 0, 0);
+      image(gameOverScreen, 0, 0);
     }
   }
 
   public void win(){
     if(enemyLives == 0){
-      img(winScreen, 0, 0);
+      image(winScreen, 0, 0);
+    }
+  }
+
+  public void lives(){
+    if(playerLives == 3){
+      image(lives, oneHeartX, heartY);
+      image(lives, twoHeartX, heartY);
+      image(lives, threeHeartX, heartY);
+    }
+    if(playerLives == 2){
+      image(lives, oneHeartX, heartY);
+      image(lives, twoHeartX, heartY);
+    }
+    if(playerLives == 1){
+      image(lives, oneHeartX, heartY);
     }
   }
   
