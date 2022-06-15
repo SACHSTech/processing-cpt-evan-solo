@@ -17,6 +17,7 @@ public class Sketch extends PApplet {
   PImage lives;
   PImage gameOverScreen;
   PImage spritesheet;
+  PImage winScreen;
 
   int sonic_runFrames = 8;
   int sonic_runFrameWidth = 90;
@@ -40,7 +41,7 @@ public class Sketch extends PApplet {
   // Enemy
   float enemyX;
   float enemyY;
-  float enemyLives = 3;
+  float enemyLives = 2;
 
   // Key pressed variables
   boolean wPressed;
@@ -76,6 +77,9 @@ public class Sketch extends PApplet {
 
     background2 = spritesheet.get(16,133,295,147);
     background2.resize(width, height);
+
+    winScreen = loadImage(winscreen.jpg);
+    winScreen.resize(width, height);
 
     sonicRunLeft = spritesheet.get(20,20,sonic_runFrames*sonic_runFrameWidth,90);
 
@@ -119,7 +123,9 @@ public class Sketch extends PApplet {
   
 
   public void draw() {
-	  image(background, 0, 0);
+	  dayCycle();
+    sonicRunner();
+    gameover();
   }
 
   public void keyPressed(){
