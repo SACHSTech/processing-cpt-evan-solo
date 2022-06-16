@@ -135,6 +135,8 @@ public class Sketch extends PApplet {
     sonicAttack();
     //sonicRunner();
     lives();
+    quandaleDingle();
+    groundd();
     
   }
 
@@ -236,12 +238,12 @@ public class Sketch extends PApplet {
 
   public void sonicAttack(){
     
-    if(attack == true){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY + 50);
+    if(attack == true){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY);
       if(attack == true && playerX == enemyX && playerY == enemyY){
       enemyLives = enemyLives - 1;
     }
   }
-    if(attack == false){ image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY + 50);
+    if(attack == false){ image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
     }
  }
 
@@ -275,45 +277,49 @@ public class Sketch extends PApplet {
 
   public void groundd(){
     // Ground collision
-    if(playerY + playerHeight > groundA && 12 < playerX && playerX < 96){
-      playerY = 272;
-      playerSpeedY = 0;
-      jumping = false;
-    }
-
-    else if(playerY + playerHeight > groundB && 140 < playerX && playerX < 278){
+      
+  
+     
+  
+  
+    if(playerY == 390){
+      playerLives = playerLives - 1;
+       playerX = 23;
+       playerY = 200;
+      }
+  
+    if(playerY > 310 && 550 < playerX && playerX < 630){
+      playerY = 385;
+       playerSpeedY = 0;
+       jumping = false;
+      }
+    
+      if(playerY > 276 && 410 < playerX && playerX < 425){
+        playerY = 272-60;
+        playerSpeedY = 0;
+        jumping = false;
+      }
+    
+     if(playerY > 327 && 340 < playerX && playerX < 390){
+        playerY = 324;
+        playerSpeedY = 0;
+        jumping = false;
+      }
+    
+     if(playerY > 240 && 140 < playerX && playerX < 278){
       playerY = 198;
       playerSpeedY = 0;
       jumping = false;
-    }
-
-    else if(playerY + playerHeight > groundC && 340 < playerX && playerX < 390){
-      playerY = 324;
-      playerSpeedY = 0;
-      jumping = false;
-    }
-
-    else if(playerY + playerHeight > groundD && 410 < playerX && playerX < 495){
+      }
+     else if(playerY > 277 && 12 < playerX && playerX < 96){
       playerY = 272;
       playerSpeedY = 0;
       jumping = false;
-    }
-
-    else if(playerY + playerHeight > groundE && 550 < playerX && playerX < 630){
-      playerY = 385;
-      playerSpeedY = 0;
-      jumping = false;
-    }
-
-    else if(playerY + playerHeight > 0){
-      playerLives = playerLives - 1;
-      playerX = 23;
-      playerY = 200;
-    }
+      }
     else{
       playerSpeedY++;
+      }
     }
-  }
 
   public void ground(){
     fill(0, 0, 0);
@@ -323,4 +329,4 @@ public class Sketch extends PApplet {
     line(415, 276, 497, 276);
     line(550, 310, 628, 310);
   }
-  }
+}
