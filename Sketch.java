@@ -133,7 +133,6 @@ public class Sketch extends PApplet {
     ground();
     dayCycle();
     sonicAttack();
-    //sonicRunner();
     lives();
     quandaleDingle();
     groundd();
