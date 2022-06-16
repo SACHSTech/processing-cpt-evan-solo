@@ -16,6 +16,7 @@ public class Sketch extends PApplet {
   PImage gameOverScreen;
   PImage spritesheet;
   PImage winScreen;
+  PImage quandaleDingle;
 
   int sonic_runFrames = 8;
   int sonic_runFrameWidth = 90;
@@ -39,9 +40,10 @@ public class Sketch extends PApplet {
 
   // Enemy
   float enemyX = 875;
-  float enemyY = 320;
+  float enemyY = 340;
   float enemyHeight = 50;
   float enemyLives = 2;
+  float enemyWidth = 5;
 
   // Key pressed variables
   boolean wPressed;
@@ -56,7 +58,7 @@ public class Sketch extends PApplet {
   double sunY = 250;
   float sunWidth = 40;
   float sunHeight = 40;
-  double sunSpeed = 3;
+  double sunSpeed = 5;
   boolean sun = true;
   boolean moon = false;
   float inverse;
@@ -86,6 +88,9 @@ public class Sketch extends PApplet {
 
     winScreen = loadImage("winscreen.jpg");
     winScreen.resize(width, height);
+
+    quandaleDingle = loadImage("quandaledingle.png");
+    quandaleDingle.resize(quandaleDingle.width/5,quandaleDingle.height/5);
 
     sonicRunLeft = spritesheet.get(20,20,sonic_runFrames*sonic_runFrameWidth,90);
 
@@ -124,7 +129,7 @@ public class Sketch extends PApplet {
   public void draw() {
     dayCycle();
     sonicRunner();
-    lives();
+    quandaleDingle();
   }
 
   public void keyPressed(){
@@ -160,7 +165,7 @@ public class Sketch extends PApplet {
       fill(245, 255, 50);
       ellipse(inverse, (float)sunY, sunWidth, sunHeight);
       sunX += sunSpeed;
-      sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
+      sunY = (0.0009*(Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
       
       if (sunY >= 300) {
@@ -177,7 +182,7 @@ public class Sketch extends PApplet {
       fill(255, 255, 255);
       ellipse(inverse, (float)sunY, sunWidth, sunHeight);
       sunX += sunSpeed;
-      sunY = (0.0007*(Math.pow(sunX - width/2, 2))) + 40;
+      sunY = (0.0009*(Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
 
       if (sunY >= 300) {
@@ -291,10 +296,8 @@ public class Sketch extends PApplet {
 
   public void quandaleDingle(){
     fill(255, 0, 0);
-    rect(enemyX, enemyY, enemyWidth, enemyHeight);
-    image(quandaleDingle, enemyX - 6, enemyY);
+    rect(enemyX + 10, enemyY, enemyWidth -5, enemyHeight - 5);
+    image(quandaleDingle, enemyX, enemyY);
 
     }
   }
-  
-}
