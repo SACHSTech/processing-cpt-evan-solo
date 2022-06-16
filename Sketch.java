@@ -47,7 +47,7 @@ public class Sketch extends PApplet {
 
   // Key pressed variables
   boolean spacePressed;
-  boolean attack;
+  boolean attack = false;
 
   // Moon and Sun
   double sunX = 0;
@@ -61,8 +61,8 @@ public class Sketch extends PApplet {
 
   // Lives
   float heartY = 350;
-  float oneHeartX = 550;
-  float twoHeartX = 530;
+  float oneHeartX = 600;
+  float twoHeartX = 560;
   float threeHeartX = 520;
 
   // Ground
@@ -130,11 +130,12 @@ public class Sketch extends PApplet {
   
 
   public void draw() {
-    lives();
+    ground();
     dayCycle();
-    quandaleDingle();
-    win();
-
+    sonicAttack();
+    //sonicRunner();
+    lives();
+    
   }
 
   public void keyPressed(){
@@ -168,8 +169,17 @@ public class Sketch extends PApplet {
       }
     }
    }
- } 
+ }
+    if(key == 'f'){
+      attack = true;
+    }
 }
+
+  public void keyReleased(){
+    if(key == 'f'){
+      attack = false;
+    }
+  }
   
   public void mousePressed(){
     attack = true;
@@ -217,8 +227,53 @@ public class Sketch extends PApplet {
 }
   
   public void sonicRunner(){
-    image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY + 50);
+     
 
+    
+    
+    
+  }
+
+  public void sonicAttack(){
+    
+    if(attack == true){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY + 50);
+      if(attack == true && playerX == enemyX && playerY == enemyY){
+      enemyLives = enemyLives - 1;
+    }
+  }
+    if(attack == false){ image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY + 50);
+    }
+ }
+
+  public void win(){
+    if(enemyLives == 0){
+      image(winScreen, 0, 0);
+    }
+  }
+
+  public void lives(){
+    if(playerLives == 3){
+      image(lives, oneHeartX, heartY);
+      image(lives, twoHeartX, heartY);
+      image(lives, threeHeartX, heartY);
+    }
+    if(playerLives == 2){
+      image(lives, oneHeartX, heartY);
+      image(lives, twoHeartX, heartY);
+    }
+    if(playerLives == 1){
+      image(lives, oneHeartX, heartY);
+    }
+  }
+
+  public void quandaleDingle(){
+    fill(255, 0, 0);
+    rect(enemyX + 10, enemyY, enemyWidth -5, enemyHeight - 5);
+    image(quandaleDingle, enemyX, enemyY);
+
+    }
+
+  public void groundd(){
     // Ground collision
     if(playerY + playerHeight > groundA && 12 < playerX && playerX < 96){
       playerY = 272;
@@ -258,35 +313,14 @@ public class Sketch extends PApplet {
     else{
       playerSpeedY++;
     }
-    
-    
   }
 
-  public void win(){
-    if(enemyLives == 0){
-      image(winScreen, 0, 0);
-    }
+  public void ground(){
+    fill(0, 0, 0);
+    line(16, 277, 95, 277);
+    line(144, 240, 280, 240);
+    line(344, 327, 390, 327);
+    line(415, 276, 497, 276);
+    line(550, 310, 628, 310);
   }
-
-  public void lives(){
-    if(playerLives == 3){
-      image(lives, oneHeartX, heartY);
-      image(lives, twoHeartX, heartY);
-      image(lives, threeHeartX, heartY);
-    }
-    if(playerLives == 2){
-      image(lives, oneHeartX, heartY);
-      image(lives, twoHeartX, heartY);
-    }
-    if(playerLives == 1){
-      image(lives, oneHeartX, heartY);
-    }
-  }
-
-  public void quandaleDingle(){
-    fill(255, 0, 0);
-    rect(enemyX + 10, enemyY, enemyWidth -5, enemyHeight - 5);
-    image(quandaleDingle, enemyX, enemyY);
-
-    }
   }
