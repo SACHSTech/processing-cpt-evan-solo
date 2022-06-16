@@ -27,29 +27,25 @@ public class Sketch extends PApplet {
   int speed = 2;
   int invulnerability = 0;
   int invulnerable = 0;
-  float playerX = 80;
-  float playerY = 400;
+  float playerX = 23;
+  float playerY = 200;
   float playerWidth = 12;
-  float playerHeight = 18;
+  float playerHeight = 15;
   float playerLives = 3;
   float playerSpeedY = 0;
   boolean jumping = false;
 
   // Game over
-  boolean gameover = false;
+  boolean gameover;
 
   // Enemy
-  float enemyX = 875;
-  float enemyY = 340;
+  float enemyX = 550;
+  float enemyY = 270;
   float enemyHeight = 50;
   float enemyLives = 2;
   float enemyWidth = 5;
 
   // Key pressed variables
-  boolean wPressed;
-  boolean aPressed;
-  boolean sPressed;
-  boolean dPressed;
   boolean spacePressed;
   boolean attack;
 
@@ -58,20 +54,27 @@ public class Sketch extends PApplet {
   double sunY = 250;
   float sunWidth = 40;
   float sunHeight = 40;
-  double sunSpeed = 5;
+  double sunSpeed = 3;
   boolean sun = true;
   boolean moon = false;
   float inverse;
 
   // Lives
-  float heartY = 450;
-  float oneHeartX = 940;
-  float twoHeartX = 920;
-  float threeHeartX = 900;
+  float heartY = 350;
+  float oneHeartX = 550;
+  float twoHeartX = 530;
+  float threeHeartX = 520;
+
+  // Ground
+  float groundA = 275;
+  float groundB = 240;
+  float groundC = 327;
+  float groundD = 453;
+  float groundE = 305;
 	
   
   public void settings() {
-    size(1000, 500);
+    size(650, 400);
   }
 
  
@@ -99,7 +102,7 @@ public class Sketch extends PApplet {
     sonicAttack = spritesheet.get(5,289,374,118);
 
     lives = spritesheet.get(14,445,170,170);
-    lives.resize(lives.width/3,lives.height/3);
+    lives.resize(lives.width/4,lives.height/4);
 
     gameOverScreen = spritesheet.get(481,299,393,216);
     gameOverScreen.resize(width, height);
@@ -127,27 +130,46 @@ public class Sketch extends PApplet {
   
 
   public void draw() {
+    lives();
     dayCycle();
-    sonicRunner();
     quandaleDingle();
+    win();
+
   }
 
   public void keyPressed(){
-    // Detecting movement
+    if(keyPressed){
+      if(keyCode == SHIFT){
+        speed = 4;
+      }
+      else if(keyCode == 'A'){   
+        playerX -= speed;
+        jumping = true;
+    }
 
-    if(keyCode == SHIFT){
-      speed = 4;
+      else if(keyCode == 'D'){ 
+        playerX += speed;
+        jumping = true;
     }
-    else if(key == 'a'){
-      aPressed = true;
+
+      else if(keyCode == ' '){
+        if(!jumping){
+          playerSpeedY = -15;
+          jumping = true;
+  
+        if(gameover == true){
+          enemyX = 250;
+          playerX = 80;
+          playerY = 400;
+          playerLives = 3;
+          enemyLives = 2; 
+          sun = true;
+          moon = false;
+      }
     }
-    else if(key == 'd'){
-      dPressed = true;
-    }
-    else if(key == ' '){
-      spacePressed = true;
-    }
-  }
+   }
+ } 
+}
   
   public void mousePressed(){
     attack = true;
@@ -165,7 +187,7 @@ public class Sketch extends PApplet {
       fill(245, 255, 50);
       ellipse(inverse, (float)sunY, sunWidth, sunHeight);
       sunX += sunSpeed;
-      sunY = (0.0009*(Math.pow(sunX - width/2, 2))) + 40;
+      sunY = (0.0006 * (Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
       
       if (sunY >= 300) {
@@ -176,13 +198,13 @@ public class Sketch extends PApplet {
       }
     }
     else if(moon == true && playerLives > 0){
-      background2 = spritesheet.get(16,133,295,147);
+      image(background2, 0, 0);
 
       // Night
       fill(255, 255, 255);
       ellipse(inverse, (float)sunY, sunWidth, sunHeight);
       sunX += sunSpeed;
-      sunY = (0.0009*(Math.pow(sunX - width/2, 2))) + 40;
+      sunY = (0.0006*(Math.pow(sunX - width/2, 2))) + 40;
       inverse = width - (float) sunX;
 
       if (sunY >= 300) {
@@ -195,82 +217,49 @@ public class Sketch extends PApplet {
 }
   
   public void sonicRunner(){
-
-    playerY += playerSpeedY;
-    //Drawing running sonic
-    if(aPressed == true  && playerLives > 0){   
-      image(sonicRunLeftFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
-      playerX -= speed;
-      jumping = true;
-    }
-
-    else if(dPressed == true && playerLives > 0){ 
-      image(sonicRunLeftFrames[(frameCount/5)%sonic_runFrames], playerX, playerY);
-      playerX += speed;
-      jumping = true;
-    }
-
-    else if(spacePressed == true && playerLives > 0){
-      if(!jumping){
-        playerSpeedY = -10;
-        jumping = true;
-
-      if(gameover == true){
-        enemyX = 250;
-        playerX = 80;
-        playerY = 400;
-        playerLives = 3;
-        enemyLives = 2; 
-        sun = true;
-        moon = false;
-      }
-      }
-    }
+    image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY + 50);
 
     // Ground collision
-    if(playerY + playerHeight > 340 && 23 < playerX && playerX < 150){
-      playerY = 340;
+    if(playerY + playerHeight > groundA && 12 < playerX && playerX < 96){
+      playerY = 272;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 300 && 220 < playerX && playerX < 450){
-      playerY = 300;
+    else if(playerY + playerHeight > groundB && 140 < playerX && playerX < 278){
+      playerY = 198;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 405 && 530 < playerX && playerX < 600){
-      playerY = 405;
+    else if(playerY + playerHeight > groundC && 340 < playerX && playerX < 390){
+      playerY = 324;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 340 && 640 < playerX && playerX < 765){
-      playerY = 340;
+    else if(playerY + playerHeight > groundD && 410 < playerX && playerX < 495){
+      playerY = 272;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 385 && 850 < playerX && playerX < 969){
+    else if(playerY + playerHeight > groundE && 550 < playerX && playerX < 630){
       playerY = 385;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 0){
+    else if(playerY + playerHeight > 0){
       playerLives = playerLives - 1;
-      playerX = 80;
-      playerY = 400;
+      playerX = 23;
+      playerY = 200;
+    }
+    else{
+      playerSpeedY++;
     }
     
     
-  }
-
-  public void gameover(){
-    if(playerLives == 0){
-      gameover = true;
-    } image(gameOverScreen, 0, 0);
   }
 
   public void win(){
