@@ -116,13 +116,13 @@ public class Sketch extends PApplet {
     // Attack animation sonic
     sonicAttackFrames = new PImage[sonic_attackFrames];
     for(int i = 0; i < sonic_attackFrames; i++){
-      sonicAttackFrames[i] = sonicAttack.get(sonic_attackFrameWidth*i, 0, sonic_attackFrameWidth, sonicAttack.height );
+      sonicAttackFrames[i] = sonicAttack.get(sonic_attackWidth*i, 0, sonic_attackWidth, sonicAttack.height );
     }
 
     // Run animation dr eggman
     drEggmanFrames = new PImage[drEggman_runFrames];
     for(int i = 0; i < drEggman_runFrames; i++){
-      drEggmanRunFrames[i] = drEggman.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, drEggman.height );
+      drEggmanFrames[i] = drEggman.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, drEggman.height );
     }
  }
     
@@ -218,31 +218,31 @@ public class Sketch extends PApplet {
     }
 
     // Ground collision
-    if(playerY + playerHeight > 340 && 23 < playerX < 150){
+    if(playerY + playerHeight > 340 && 23 < playerX && playerX < 150){
       playerY = 340;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 300 && 220 < playerX < 450){
+    if(playerY + playerHeight > 300 && 220 < playerX && playerX < 450){
       playerY = 300;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 405 && 530 < playerX < 600){
+    if(playerY + playerHeight > 405 && 530 < playerX && playerX < 600){
       playerY = 405;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 340 && 640 < playerX < 765){
+    if(playerY + playerHeight > 340 && 640 < playerX && playerX < 765){
       playerY = 340;
       playerSpeedY = 0;
       jumping = false;
     }
 
-    if(playerY + playerHeight > 385 && 850 < playerX < 969){
+    if(playerY + playerHeight > 385 && 850 < playerX && playerX < 969){
       playerY = 385;
       playerSpeedY = 0;
       jumping = false;
