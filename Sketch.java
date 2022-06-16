@@ -12,8 +12,6 @@ public class Sketch extends PApplet {
   PImage[] sonicRunLeftFrames;
   PImage[] sonicRunRightFrames;
   PImage[] sonicAttackFrames;
-  PImage drEggman;
-  PImage[] drEggmanFrames;
   PImage lives;
   PImage gameOverScreen;
   PImage spritesheet;
@@ -23,8 +21,6 @@ public class Sketch extends PApplet {
   int sonic_runFrameWidth = 90;
   int sonic_attackFrames = 4;
   int sonic_attackWidth = 98;
-  int drEggman_runFrames = 6;
-  int drEggman_runFrameWidth = 95;
 
   // Player
   int speed = 2;
@@ -38,9 +34,13 @@ public class Sketch extends PApplet {
   float playerSpeedY = 0;
   boolean jumping = false;
 
+  // Game over
+  boolean gameover = false;
+
   // Enemy
-  float enemyX;
-  float enemyY;
+  float enemyX = 875;
+  float enemyY = 320;
+  float enemyHeight = 50;
   float enemyLives = 2;
 
   // Key pressed variables
@@ -93,8 +93,6 @@ public class Sketch extends PApplet {
     
     sonicAttack = spritesheet.get(5,289,374,118);
 
-    drEggman = spritesheet.get(338,130,588,120);
-
     lives = spritesheet.get(14,445,170,170);
     lives.resize(lives.width/3,lives.height/3);
 
@@ -118,33 +116,30 @@ public class Sketch extends PApplet {
     for(int i = 0; i < sonic_attackFrames; i++){
       sonicAttackFrames[i] = sonicAttack.get(sonic_attackWidth*i, 0, sonic_attackWidth, sonicAttack.height );
     }
-
-    // Run animation dr eggman
-    drEggmanFrames = new PImage[drEggman_runFrames];
-    for(int i = 0; i < drEggman_runFrames; i++){
-      drEggmanFrames[i] = drEggman.get(drEggman_runFrameWidth*i, 0, drEggman_runFrameWidth, drEggman.height );
-    }
  }
     
 
   
 
   public void draw() {
-	  dayCycle();
+    dayCycle();
     sonicRunner();
-    gameover();
     lives();
   }
 
   public void keyPressed(){
     // Detecting movement
-    if(key == 'a'){
+
+    if(keyCode == SHIFT){
+      speed = 4;
+    }
+    else if(key == 'a'){
       aPressed = true;
     }
-    if(key == 'd'){
+    else if(key == 'd'){
       dPressed = true;
     }
-    if(key == ' '){
+    else if(key == ' '){
       spacePressed = true;
     }
   }
@@ -214,6 +209,16 @@ public class Sketch extends PApplet {
       if(!jumping){
         playerSpeedY = -10;
         jumping = true;
+
+      if(gameover == true){
+        enemyX = 250;
+        playerX = 80;
+        playerY = 400;
+        playerLives = 3;
+        enemyLives = 2; 
+        sun = true;
+        moon = false;
+      }
       }
     }
 
@@ -259,8 +264,8 @@ public class Sketch extends PApplet {
 
   public void gameover(){
     if(playerLives == 0){
-      image(gameOverScreen, 0, 0);
-    }
+      gameover = true;
+    } image(gameOverScreen, 0, 0);
   }
 
   public void win(){
@@ -281,6 +286,14 @@ public class Sketch extends PApplet {
     }
     if(playerLives == 1){
       image(lives, oneHeartX, heartY);
+    }
+  }
+
+  public void quandaleDingle(){
+    fill(255, 0, 0);
+    rect(enemyX, enemyY, enemyWidth, enemyHeight);
+    image(quandaleDingle, enemyX - 6, enemyY);
+
     }
   }
   
