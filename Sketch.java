@@ -132,6 +132,7 @@ public class Sketch extends PApplet {
       sonicAttackFrames[i] = sonicAttack.get(sonic_attackWidth*i, 0, sonic_attackWidth, sonicAttack.height );
     }
  }
+  
   /**
    * Called repeatedly, anything drawn to the screen goes here
    */
@@ -162,7 +163,7 @@ public class Sketch extends PApplet {
     if(key == ' '){
       spacePressed = true;
     }
-}
+  }
   
   /**
    * 
@@ -237,8 +238,8 @@ public class Sketch extends PApplet {
         sunX = 0;
         sunY = 250;
       }
+    }
   }
-}
   
   /**
    * 
@@ -348,8 +349,8 @@ public class Sketch extends PApplet {
       fill(255, 0, 0);
       rect(enemyX + 10, enemyY, enemyWidth - 5, enemyHeight - 5);
       image(quandaleDingle, enemyX, enemyY);
-}
     }
+  }
   /**
    * 
    * creates barriers on the ground and applies gravity
