@@ -264,16 +264,6 @@ public class Sketch extends PApplet {
       if(!jumping){
           playerSpeedY = -20;
           jumping = true;
-  
-      if(gameover == true){
-          enemyX = 250;
-          playerX = 80;
-          playerY = 400;
-          playerLives = 3;
-          enemyLives = 2; 
-          sun = true;
-          moon = false;
-      }
     }
    }
  }
@@ -292,7 +282,13 @@ public class Sketch extends PApplet {
     }
   }
     // drawing runnning sonic
-    if(attack == false && enemyLives > 0){   
+    if(attack == false && enemyLives > 0 && dPressed == true){   
+      image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
+    }
+    else if(attack == false && enemyLives > 0 && aPressed == true){   
+      image(sonicRunLeftFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
+    }
+    else{
       image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
     }
  }
@@ -362,12 +358,12 @@ public class Sketch extends PApplet {
        playerX = 23;
        playerY = 240;
       }
-    if(playerY > 264 && 475 < playerX && playerX < 625){
+    if(playerY > 264 && 480 < playerX && playerX < 625){
       playerY = 264;
       playerSpeedY = 0;
       jumping = false;
       }
-    if(playerY > 230 && 385 < playerX && playerX < 475){
+    if(playerY > 230 && 385 < playerX && playerX < 460){
       playerY = 230;
       playerSpeedY = 0;
       jumping = false;
