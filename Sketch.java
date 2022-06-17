@@ -67,11 +67,17 @@ public class Sketch extends PApplet {
   float twoHeartX = 560;
   float threeHeartX = 520;
   
+  /**
+   * Called once at the beginning of execution, put your size all in this method
+   */
   public void settings() {
     size(650, 400);
   }
 
- 
+  /** 
+   * Called once at the beginning of execution.  Add initial set up
+   * values here i.e background, stroke, fill etc.
+   */
   public void setup() {
     // Load Spritesheet
     spritesheet = loadImage("spritesheet.png");
@@ -126,10 +132,9 @@ public class Sketch extends PApplet {
       sonicAttackFrames[i] = sonicAttack.get(sonic_attackWidth*i, 0, sonic_attackWidth, sonicAttack.height );
     }
  }
-    
-
-  
-
+  /**
+   * Called repeatedly, anything drawn to the screen goes here
+   */
   public void draw() {
     ground();
     dayCycle();
@@ -139,7 +144,11 @@ public class Sketch extends PApplet {
     sonicRunner();
     win();
   }
-
+  
+  /**
+   * 
+   * detects when key is pressed
+   */
   public void keyPressed(){
     if(key == 'f'){
       attack = true;
@@ -154,7 +163,11 @@ public class Sketch extends PApplet {
       spacePressed = true;
     }
 }
-
+  
+  /**
+   * 
+   * detects when key is released
+   */
   public void keyReleased(){
     if(key == 'f'){
       attack = false;
@@ -170,14 +183,26 @@ public class Sketch extends PApplet {
     }
   }
   
+  /**
+   * 
+   * detects when mouse is pressed
+   */
   public void mousePressed(){
     attack = true;
   }
 
+  /**
+   * 
+   * detects when mouse is released
+   */
   public void mouseReleased(){
     attack = false;
   }
 
+  /**
+   * 
+   * draws the sun and moon, as well as the background for day and night
+   */
   public void dayCycle(){
     // Day
     if(sun == true && playerLives > 0 && enemyLives > 0){
@@ -215,6 +240,10 @@ public class Sketch extends PApplet {
   }
 }
   
+  /**
+   * 
+   * moves sonic when keys are pressed
+   */
   public void sonicRunner(){
     // gravity
     playerY += playerSpeedY;
@@ -247,7 +276,11 @@ public class Sketch extends PApplet {
     }
    }
  }
-
+  
+  /**
+   * 
+   * drraws the animation for sonic's attack
+   */
   public void sonicAttack(){
     // draws attacking sonic and detects if he hits quandale
     if(attack == true && enemyLives > 0){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY);
@@ -262,7 +295,11 @@ public class Sketch extends PApplet {
       image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
     }
  }
-
+  
+  /**
+   * 
+   * draws the win screen when the player wins
+   */
   public void win(){
     // win screen
     if(enemyLives == 0){
@@ -270,6 +307,10 @@ public class Sketch extends PApplet {
     }
   }
 
+  /**
+   * 
+   * draws the amount of lives sonic and quandale has
+   */
   public void lives(){
     // drawing sonic lives
     if(playerLives == 3 && enemyLives > 0){
@@ -297,6 +338,10 @@ public class Sketch extends PApplet {
     }
   }
 
+  /**
+   * 
+   * draws quandale dingle
+   */
   public void quandaleDingle(){
     // drawing quandale
     if(playerLives > 0 && enemyLives > 0){
@@ -305,7 +350,10 @@ public class Sketch extends PApplet {
       image(quandaleDingle, enemyX, enemyY);
 }
     }
-
+  /**
+   * 
+   * creates barriers on the ground and applies gravity
+   */
   public void ground(){
     // Ground collision
     if(playerY >= 320){
