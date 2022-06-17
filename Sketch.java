@@ -4,7 +4,7 @@ import processing.core.PImage;
 public class Sketch extends PApplet {
 
   // Images
-	PImage background;
+  PImage background;
   PImage background2;
   PImage sonicRunRight;
   PImage sonicRunLeft;
@@ -13,18 +13,18 @@ public class Sketch extends PApplet {
   PImage[] sonicRunRightFrames;
   PImage[] sonicAttackFrames;
   PImage lives;
+  PImage enemyHeart;
   PImage gameOverScreen;
   PImage spritesheet;
   PImage winScreen;
   PImage quandaleDingle;
 
+  // Sonic 
   int sonic_runFrames = 8;
   int sonic_runFrameWidth = 90;
   int sonic_attackFrames = 4;
   int sonic_attackWidth = 98;
-
-  // Player
-  int speed = 2;
+  int speed = 3;
   int invulnerability = 0;
   int invulnerable = 0;
   float playerX = 23;
@@ -38,7 +38,7 @@ public class Sketch extends PApplet {
   // Game over
   boolean gameover;
 
-  // Enemy
+  // quandale
   float enemyX = 550;
   float enemyY = 270;
   float enemyHeight = 50;
@@ -48,6 +48,8 @@ public class Sketch extends PApplet {
   // Key pressed variables
   boolean spacePressed;
   boolean attack = false;
+  boolean aPressed;
+  boolean dPressed;
 
   // Moon and Sun
   double sunX = 0;
@@ -64,14 +66,6 @@ public class Sketch extends PApplet {
   float oneHeartX = 600;
   float twoHeartX = 560;
   float threeHeartX = 520;
-
-  // Ground
-  float groundA = 275;
-  float groundB = 240;
-  float groundC = 327;
-  float groundD = 453;
-  float groundE = 305;
-	
   
   public void settings() {
     size(650, 400);
@@ -82,18 +76,9 @@ public class Sketch extends PApplet {
     // Load Spritesheet
     spritesheet = loadImage("spritesheet.png");
     
-    // Load images
-    background = loadImage("background.jpg");
-    background.resize(width, height);
-
+    // Grab images from spritesheet and resize them
     background2 = spritesheet.get(16,133,295,147);
     background2.resize(width, height);
-
-    winScreen = loadImage("winscreen.jpg");
-    winScreen.resize(width, height);
-
-    quandaleDingle = loadImage("quandaledingle.png");
-    quandaleDingle.resize(quandaleDingle.width/5,quandaleDingle.height/5);
 
     sonicRunLeft = spritesheet.get(20,20,sonic_runFrames*sonic_runFrameWidth,90);
 
@@ -106,6 +91,22 @@ public class Sketch extends PApplet {
 
     gameOverScreen = spritesheet.get(481,299,393,216);
     gameOverScreen.resize(width, height);
+
+    // load other images and resize them
+    winScreen = loadImage("winscreen.jpg");
+    winScreen.resize(width, height);
+
+    gameOverScreen = loadImage("gameover.jpg");
+    gameOverScreen.resize(width, height);
+
+    quandaleDingle = loadImage("quandaledingle.png");
+    quandaleDingle.resize(quandaleDingle.width/5,quandaleDingle.height/5);
+    
+    enemyHeart = loadImage("quandaleheart.png");
+    enemyHeart.resize(enemyHeart.width/14, enemyHeart.height/14);
+    
+    background = loadImage("background.jpg");
+    background.resize(width, height);
 
     // Running animation sonic going left
     sonicRunLeftFrames = new PImage[sonic_runFrames];
@@ -135,50 +136,37 @@ public class Sketch extends PApplet {
     sonicAttack();
     lives();
     quandaleDingle();
-    groundd();
-    
+    sonicRunner();
+    win();
   }
 
   public void keyPressed(){
-    if(keyPressed){
-      if(keyCode == SHIFT){
-        speed = 4;
-      }
-      else if(keyCode == 'A'){   
-        playerX -= speed;
-        jumping = true;
-    }
-
-      else if(keyCode == 'D'){ 
-        playerX += speed;
-        jumping = true;
-    }
-
-      else if(keyCode == ' '){
-        if(!jumping){
-          playerSpeedY = -15;
-          jumping = true;
-  
-        if(gameover == true){
-          enemyX = 250;
-          playerX = 80;
-          playerY = 400;
-          playerLives = 3;
-          enemyLives = 2; 
-          sun = true;
-          moon = false;
-      }
-    }
-   }
- }
     if(key == 'f'){
       attack = true;
+    }
+    if(key == 'a'){
+      aPressed = true;
+    }
+    if(key == 'd'){
+      dPressed = true;
+    }
+    if(key == ' '){
+      spacePressed = true;
     }
 }
 
   public void keyReleased(){
     if(key == 'f'){
       attack = false;
+    }
+    if(key == 'a'){
+      aPressed = false;
+    }
+    if(key == 'd'){
+      dPressed = false;
+    }
+    if(key == ' '){
+      spacePressed = false;
     }
   }
   
@@ -192,7 +180,7 @@ public class Sketch extends PApplet {
 
   public void dayCycle(){
     // Day
-    if(sun == true && playerLives > 0){
+    if(sun == true && playerLives > 0 && enemyLives > 0){
       image(background, 0, 0);
 
       fill(245, 255, 50);
@@ -208,7 +196,7 @@ public class Sketch extends PApplet {
         sunY = 250;
       }
     }
-    else if(moon == true && playerLives > 0){
+    else if(moon == true && playerLives > 0 && enemyLives > 0){
       image(background2, 0, 0);
 
       // Night
@@ -228,90 +216,125 @@ public class Sketch extends PApplet {
 }
   
   public void sonicRunner(){
-     
+    // gravity
+    playerY += playerSpeedY;
+    
+    // movement for sonic
+    if(aPressed == true){   
+        playerX -= speed;
+        jumping = true;
+    }
 
-    
-    
-    
-  }
+    if(dPressed == true){ 
+        playerX += speed;
+        jumping = true;
+    }
+
+    if(spacePressed == true){
+      if(!jumping){
+          playerSpeedY = -20;
+          jumping = true;
+  
+      if(gameover == true){
+          enemyX = 250;
+          playerX = 80;
+          playerY = 400;
+          playerLives = 3;
+          enemyLives = 2; 
+          sun = true;
+          moon = false;
+      }
+    }
+   }
+ }
 
   public void sonicAttack(){
-    
-    if(attack == true){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY);
-      if(attack == true && playerX == enemyX && playerY == enemyY){
-      enemyLives = enemyLives - 1;
+    // draws attacking sonic and detects if he hits quandale
+    if(attack == true && enemyLives > 0){ image(sonicAttackFrames[(frameCount/4)%sonic_attackFrames], playerX, playerY);
+      if(attack == true && playerX > 460){
+        enemyLives = enemyLives - 1;
+        playerX = 23;
+        playerY = 240;
     }
   }
-    if(attack == false){ image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
+    // drawing runnning sonic
+    if(attack == false && enemyLives > 0){   
+      image(sonicRunRightFrames[(frameCount/4)%sonic_runFrames], playerX, playerY);
     }
  }
 
   public void win(){
+    // win screen
     if(enemyLives == 0){
       image(winScreen, 0, 0);
     }
   }
 
   public void lives(){
-    if(playerLives == 3){
+    // drawing sonic lives
+    if(playerLives == 3 && enemyLives > 0){
       image(lives, oneHeartX, heartY);
       image(lives, twoHeartX, heartY);
       image(lives, threeHeartX, heartY);
     }
-    if(playerLives == 2){
+    if(playerLives == 2 && enemyLives > 0){
       image(lives, oneHeartX, heartY);
       image(lives, twoHeartX, heartY);
     }
-    if(playerLives == 1){
+    if(playerLives == 1 && enemyLives > 0){
       image(lives, oneHeartX, heartY);
+    }
+    if(playerLives == 0 && enemyLives > 0){
+      image(gameOverScreen, 0, 0);
+    }
+    // drawing quandale lives
+    if(playerLives > 0 && enemyLives == 2){
+      image(enemyHeart, 0, heartY);
+      image(enemyHeart, 40, heartY);
+    }
+    if(playerLives > 0 && enemyLives == 1){
+      image(enemyHeart, 0, heartY);
     }
   }
 
   public void quandaleDingle(){
-    fill(255, 0, 0);
-    rect(enemyX + 10, enemyY, enemyWidth -5, enemyHeight - 5);
-    image(quandaleDingle, enemyX, enemyY);
-
+    // drawing quandale
+    if(playerLives > 0 && enemyLives > 0){
+      fill(255, 0, 0);
+      rect(enemyX + 10, enemyY, enemyWidth - 5, enemyHeight - 5);
+      image(quandaleDingle, enemyX, enemyY);
+}
     }
 
-  public void groundd(){
+  public void ground(){
     // Ground collision
-      
-  
-     
-  
-  
-    if(playerY == 390){
+    if(playerY >= 320){
       playerLives = playerLives - 1;
        playerX = 23;
-       playerY = 200;
+       playerY = 240;
       }
-  
-    if(playerY > 310 && 550 < playerX && playerX < 630){
-      playerY = 385;
-       playerSpeedY = 0;
-       jumping = false;
-      }
-    
-      if(playerY > 276 && 410 < playerX && playerX < 425){
-        playerY = 272-60;
-        playerSpeedY = 0;
-        jumping = false;
-      }
-    
-     if(playerY > 327 && 340 < playerX && playerX < 390){
-        playerY = 324;
-        playerSpeedY = 0;
-        jumping = false;
-      }
-    
-     if(playerY > 240 && 140 < playerX && playerX < 278){
-      playerY = 198;
+    if(playerY > 264 && 475 < playerX && playerX < 625){
+      playerY = 264;
       playerSpeedY = 0;
       jumping = false;
       }
-     else if(playerY > 277 && 12 < playerX && playerX < 96){
-      playerY = 272;
+    if(playerY > 230 && 385 < playerX && playerX < 475){
+      playerY = 230;
+      playerSpeedY = 0;
+      jumping = false;
+      }
+    if(playerY > 235 && 300 < playerX && playerX < 385){
+      playerY = 235;
+      playerSpeedY = 0;
+      jumping = false;
+      }
+    if(playerY > 194 && 118 < playerX && playerX < 269){
+      playerY = 194;
+      playerSpeedY = 0;
+      jumping = false;
+      }
+    else if(playerY > 230 && 0 < playerX && playerX < 78){
+      playerY = 230;
       playerSpeedY = 0;
       jumping = false;
       }
@@ -319,13 +342,4 @@ public class Sketch extends PApplet {
       playerSpeedY++;
       }
     }
-
-  public void ground(){
-    fill(0, 0, 0);
-    line(16, 277, 95, 277);
-    line(144, 240, 280, 240);
-    line(344, 327, 390, 327);
-    line(415, 276, 497, 276);
-    line(550, 310, 628, 310);
-  }
 }
