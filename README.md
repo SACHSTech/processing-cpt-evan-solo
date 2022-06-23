@@ -1,4 +1,4 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=7919261&assignment_repo_type=AssignmentRepo)
-# Program Title (edit this)
+# Sonic's parkour
 
-Put your program description here.
+The objective of the game is to reach Quandale Dingle, who is trapped on a remote island and attack him. Sonic must jump and navigate over the mountains and slay his mortal enemy. Use A and D to move left and right, while using spacebar to jump. Do not fall off a mountain, because you will lose a life. Using the F key or clicking the mouse will cause sonic to attack, and if you make it to Quandale's mountain and attack him, he loses a life. Attack Quandale twice before falling off the mountains 3 times and you win. Sonic has 3 lives and quandale has 2 lives.
